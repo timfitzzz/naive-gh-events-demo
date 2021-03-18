@@ -1,0 +1,56 @@
+import React from 'react'
+import styled from 'styled-components'
+
+const DropDownContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+  font-size: 10px;
+  max-width: 30%;
+  margin-top: 0;
+
+  select {
+    font-size: 10px;
+  }
+`
+
+const DropDownTopContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 0;
+  margin-bottom: auto;
+  > span {
+
+    margin-right: 10px;
+  }
+`
+
+const DropDownDescription = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+  font-weight: normal;
+  margin-top: 1px;
+`
+
+const DropDownSelector = ({description, disabled, name, options, state, setter}) => {
+
+  return (
+    <DropDownContainer>
+      <DropDownTopContainer>
+        <span>{name}</span>
+        <select disabled={disabled} name={name} onChange={(e) => { console.log(e); setter({ [name]: e.target.value })}}>
+          { options.map(option => 
+            <option value={option.value} selected={option.value === state ? true : false}>{option.description}</option>
+          )}
+        </select>
+      </DropDownTopContainer>
+      <DropDownDescription>
+        {description}
+      </DropDownDescription>
+    </DropDownContainer>
+
+  )
+}
+
+export default DropDownSelector
