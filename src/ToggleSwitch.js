@@ -62,7 +62,7 @@ const ToggleSwitch = ({name, toggleCb, state}) => {
   
   return (
     <ToggleButtonLabel> 
-      <ToggleButtonInput value={state} onClick={() => toggleCb(name)}/>
+      <ToggleButtonInput value={state} onClick={(e) => { e.preventDefault(); toggleCb(name)}}/>
       <ToggleButtonSlider state={state}/>
     </ToggleButtonLabel>
   )
