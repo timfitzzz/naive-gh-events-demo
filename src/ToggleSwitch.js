@@ -30,8 +30,8 @@ const ToggleButtonSlider = styled.span`
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: .2s;
+  transition: .2s;
   border-radius: 20px;
 
   &:before {
@@ -42,8 +42,8 @@ const ToggleButtonSlider = styled.span`
     left: 2px;
     bottom: 2px;
     background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
+    -webkit-transition: .2s;
+    transition: .2s;
     border-radius: 50%;
 
     ${p => p.state ? `
@@ -62,7 +62,7 @@ const ToggleSwitch = ({name, toggleCb, state}) => {
   
   return (
     <ToggleButtonLabel> 
-      <ToggleButtonInput value={state} onClick={(e) => { e.preventDefault(); toggleCb(name)}}/>
+      <ToggleButtonInput type={'checkbox'} value={state} onClick={(e) => { e.preventDefault(); toggleCb(name)}}/>
       <ToggleButtonSlider state={state}/>
     </ToggleButtonLabel>
   )
