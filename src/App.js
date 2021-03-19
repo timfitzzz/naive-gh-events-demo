@@ -16,6 +16,8 @@ const AppInnerContainer = styled.div`
   flex-direction: column;
   margin-left: auto;
   margin-right: auto;
+  padding-left: 5px;
+  padding-right: 5px;
 `
 
 function App() {

@@ -22,15 +22,24 @@ const HeaderContainer = styled.div`
 const NaiveEventsTitle = styled.div`
   margin-bottom: auto;
   margin-top: auto;
+  font-size: 20px;
   
 `
 
 const NaiveEventsDescriptionContainer = styled.div`
   border: 2px solid thistle;
-  max-width: 300px;
+
   margin: 4px 0 4px auto;
   border-radius: 10px;
   padding: 4px 0px 8px 8px;
+
+
+  @media (min-width: 600px) {
+    width: 40%;
+  }
+  @media (max-width: 599px) {
+    width: 100%;
+  }
 `
 
 const NaiveEventsDescription = styled.div`

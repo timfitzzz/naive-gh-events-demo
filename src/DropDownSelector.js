@@ -4,10 +4,19 @@ import styled from 'styled-components'
 const DropDownContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin-right: 20px;
+  margin-right: 5px;
+  padding-top: 5px;
+  padding-left: 2px;
   font-size: 10px;
-  max-width: 30%;
   margin-top: 0;
+  box-sizing: border-box;
+
+  @media (max-width: 599px) {
+    min-width: 47%;
+  }
+  @media (min-width: 600px) {
+    min-width: 20%;
+  }
 
   select {
     font-size: 10px;

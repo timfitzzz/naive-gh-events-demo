@@ -47,6 +47,7 @@ const DropDownsContainer = styled.div`
   max-width: 700px;
   margin-top: 5px;
   align-items: top;
+  justify-content: space-between;
 `
 
 

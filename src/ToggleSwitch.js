@@ -4,7 +4,7 @@ import styled from 'styled-components'
 const ToggleButtonLabel = styled.label`
   position: relative;
   display: inline-block;
-  width: 30px;
+  min-width: 30px;
   height: 17px;
 `
 
