@@ -23,6 +23,7 @@ const ToggleSwitchContainer = styled.div`
   width: 50%;
   display: flex;
   flex-direction: row;
+  align-content: center;
   margin-bottom: 5px;
 `
 
@@ -30,7 +31,7 @@ const ToggleLabel = styled.div`
 
   font-size: 10px;
   margin-left: 6px;
-  margin-top: auto;
+  margin-top: 0;
   margin-bottom: auto;
   > span {
     font-weight: normal;
@@ -61,8 +62,11 @@ let descriptionsTable = {
   indentContent: 'indent content lines',
   newLinesBetween: 'add extra line between items',
   sortBy: 'display order',
+  groupStartDay: 'day of week to start first group from',
   groupByDays: 'number of days of events to group together',
-  dateTimeFormatOptions: 'example Luxon display format'
+  dateTimeFormatOptions: 'example Luxon display format',
+  startDate: 'filter out prior events',
+  reverseSortEvents: 'reverse sortBy'
 }
 
 const droptions = {
@@ -70,14 +74,23 @@ const droptions = {
     { value: 'date', description: 'date'},
     { value: 'actor', description: 'actor (user)'},
     { value: 'type', description: 'event type'},
-    { value: 'target', description: 'target of action'},
     { value: 'parent', description: 'parent of action'}
   ],
   groupByDays: [
     { value: 1, description: '1 day'},
-    { value: 7, description: '1 week'},
-    { value: 14, description: '2 weeks'},
-    { value: 30, description: '1 month'}
+    { value: 3, description: '3 days'},
+    { value: 7, description: '7 days'},
+    { value: 14, description: '14 days'},
+    { value: 30, description: '30 days'}
+  ],
+  groupStartDay: [
+    { value: 0, description: 'sunday'},
+    { value: 1, description: 'monday'},
+    { value: 2, description: 'tuesday'},
+    { value: 3, description: 'wednesday'},
+    { value: 4, description: 'thursday'},
+    { value: 5, description: 'friday'},
+    { value: 6, description: 'saturday'}
   ],
   dateTimeFormatOptions: [
     { value: 'DATE_FULL', description: 'month, day, year'},
@@ -121,7 +134,8 @@ export const OptionsPanel = ({sourceControls, changeOptions, options}) => {
       </ToggleSwitchesContainer>
       <DropDownsContainer>
           <DropDownSelector description={descriptionsTable.sortby} name={'sortBy'} options={droptions['sortBy']} state={options['sortBy']} setter={changeOptions}/>
-          <DropDownSelector description={descriptionsTable.groupByDays} name={'groupByDays'} options={droptions['groupByDays']} state={options['groupByDays']} setter={changeOptions}/>
+          <DropDownSelector description={descriptionsTable.groupByDays} name={'groupByDays'} options={droptions['groupByDays']} state={options['groupByDays']} setter={changeOptions} setAsNumber={true}/>
+          <DropDownSelector description={descriptionsTable.groupStartDay} name={'groupStartDay'} options={droptions['groupStartDay']} state={options['groupStartDay']} setter={changeOptions} setAsNumber={true}/>
           <DropDownSelector description={descriptionsTable.dateTimeFormatOptions} name={'dateTimeFormatOptions'} options={droptions['dateTimeFormatOptions']} state={dateTimeFormatState} setter={setDateTimeFormat}/>
       </DropDownsContainer>
     </OptionsContainer>

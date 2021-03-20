@@ -58,6 +58,10 @@ const EventsList = styled(ReactMarkdown)`
     background-color: purple;
     color: white;
 
+    img {
+      width: 100%;
+    }
+
     a {
       color: thistle;
     }
@@ -72,6 +76,17 @@ const EventsList = styled(ReactMarkdown)`
       margin-top: 8px;
     }
   }
+`
+
+const LoadingContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`
+
+const LoadingText = styled.div`
+  margin: 20px auto auto auto;
 `
 
 const PlainEventsList = styled.div`
@@ -113,12 +128,14 @@ const EventsDisplay = () => {
     dateSummaries: false,
     dateContent: false,
     groupByDays: 7,
+    groupStartDay: 0,
     startDate: new Date(1/1/1970),
     md: true,
     omitContent: false,
     indentContent: true,
     dateTimeFormatOptions: DateTime.DATE_FULL,
-    newLinesBetween: true
+    newLinesBetween: true,
+    reverseSortEvents: false
   })
   let [source, setSource] = useState(null)
 
@@ -152,6 +169,11 @@ const EventsDisplay = () => {
           <PlainEventsList>{event.renderedEventCollections.map((plainEntry, i) => <PlainEventsLine hanging={i === 0 ? false : true}>{plainEntry}</PlainEventsLine>)}</PlainEventsList>
         )
       })}
+      { !loaded && (
+        <LoadingContainer>
+          <LoadingText>Loading...</LoadingText>
+        </LoadingContainer>
+      )}
     </EventsListContainer>
   )
 }

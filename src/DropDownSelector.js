@@ -42,13 +42,13 @@ const DropDownDescription = styled.div`
   margin-top: 1px;
 `
 
-const DropDownSelector = ({description, disabled, name, options, state, setter}) => {
+const DropDownSelector = ({description, disabled, name, options, state, setter, setAsNumber}) => {
 
   return (
     <DropDownContainer>
       <DropDownTopContainer>
         <span>{name}</span>
-        <select disabled={disabled} name={name} onChange={(e) => { console.log(e); setter({ [name]: e.target.value })}}>
+        <select disabled={disabled} name={name} onChange={(e) => { console.log(e); setter({ [name]: setAsNumber ? parseInt(e.target.value) : e.target.value })}}>
           { options.map(option => 
             <option value={option.value} selected={option.value === state ? true : false}>{option.description}</option>
           )}

@@ -35,7 +35,7 @@ const NaiveEventsDescriptionContainer = styled.div`
 
 
   @media (min-width: 600px) {
-    width: 40%;
+    width: 45%;
   }
   @media (max-width: 599px) {
     width: 100%;
@@ -89,7 +89,7 @@ export const Header = () => {
           <NaiveIcon src={Npmlogo}/></a>
         </NaiveEventsDescriptionTitle>       
         <NaiveEventsDescription>
-          Render event objects from the GitHub API as natural English, in plaintext or markdown.
+          Render event objects from the GitHub API as natural English, in plaintext or markdown. By <a href={"https://github.com/timfitzzz"}>timfitzzz</a>.
 
         </NaiveEventsDescription>
       </NaiveEventsDescriptionContainer>
