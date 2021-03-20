@@ -50,7 +50,7 @@ const DropDownSelector = ({description, disabled, name, options, state, setter, 
         <span>{name}</span>
         <select disabled={disabled} name={name} onChange={(e) => { console.log(e); setter({ [name]: setAsNumber ? parseInt(e.target.value) : e.target.value })}}>
           { options.map(option => 
-            <option value={option.value} selected={option.value === state ? true : false}>{option.description}</option>
+            <option key={'option'+option.value} value={option.value} defaultValue={option.value === state ? true : false}>{option.description}</option>
           )}
         </select>
       </DropDownTopContainer>

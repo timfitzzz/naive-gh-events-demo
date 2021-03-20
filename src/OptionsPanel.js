@@ -13,13 +13,13 @@ const OptionsContainer = styled.div`
   width: 100%;
 `
 
-const ToggleSwitchesContainer = styled.div`
+export const ToggleSwitchesContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 `
 
-const ToggleSwitchContainer = styled.div`
+export const ToggleSwitchContainer = styled.div`
   width: 50%;
   display: flex;
   flex-direction: row;
@@ -27,7 +27,7 @@ const ToggleSwitchContainer = styled.div`
   margin-bottom: 5px;
 `
 
-const ToggleLabel = styled.div`
+export const ToggleLabel = styled.div`
 
   font-size: 10px;
   margin-left: 6px;
@@ -125,8 +125,8 @@ export const OptionsPanel = ({sourceControls, changeOptions, options}) => {
       <OptionsPanelTitle>render options</OptionsPanelTitle>
       <ToggleSwitchesContainer>
             { Object.getOwnPropertyNames(options).filter(n => typeof options[n] === 'boolean').map(toggleName =>
-            <ToggleSwitchContainer>
-              <ToggleSwitch key={toggleName+'toggler'} name={toggleName} toggleCb={toggle} state={options[toggleName]}/>
+            <ToggleSwitchContainer key={toggleName+'toggler'}>
+              <ToggleSwitch name={toggleName} toggleCb={toggle} state={options[toggleName]}/>
               <ToggleLabel>{toggleName}<span>{descriptionsTable[toggleName]}</span></ToggleLabel>
             </ToggleSwitchContainer>
 

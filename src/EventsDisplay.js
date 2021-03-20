@@ -6,6 +6,7 @@ import ReactMarkdown from 'react-markdown'
 import { DateTime } from 'luxon'
 
 import OptionsPanel from './OptionsPanel'
+import DisplayOptions from './DisplayOptions'
 
 const EventsListContainer = styled.div`
   display: flex;
@@ -138,6 +139,7 @@ const EventsDisplay = () => {
     reverseSortEvents: false
   })
   let [source, setSource] = useState(null)
+  let [display, setDisplay] = useState(true)
 
   function changeOptions(newOptionsFragment) {
     setOptions(Object.assign({}, options, newOptionsFragment))
@@ -158,14 +160,18 @@ const EventsDisplay = () => {
     <EventsListContainer>
       <EventsListHeader>
         <OptionsPanel sourceControls={[source, setSource]} changeOptions={changeOptions} options={options}/>
+        <DisplayOptions display={display} setDisplay={setDisplay}/>
       </EventsListHeader>
+      
       { renderedEventGroups && renderedEventGroups.map((event, i) => {
         return options.md ? (
-          <div key={'event'+ i}>
-            <EventsGroupDate>{event.startDate} - {event.endDate}</EventsGroupDate>
-            <EventsList>{event.renderedEventCollections.join("")}</EventsList>
-          </div>
-        ) : (
+            display ? (
+            <div key={'event'+ i}>
+              <EventsGroupDate>{event.startDate} - {event.endDate}</EventsGroupDate>
+              <EventsList>{event.renderedEventCollections.join("")}</EventsList>
+            </div>
+          ) : <PlainEventsList>{event.renderedEventCollections.map((plainEntry, i) => <PlainEventsLine hanging={i === 0 ? false : true}>{plainEntry}</PlainEventsLine>)}</PlainEventsList>
+        ): (
           <PlainEventsList>{event.renderedEventCollections.map((plainEntry, i) => <PlainEventsLine hanging={i === 0 ? false : true}>{plainEntry}</PlainEventsLine>)}</PlainEventsList>
         )
       })}
