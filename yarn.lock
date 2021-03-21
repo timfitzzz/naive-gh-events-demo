@@ -7597,10 +7597,10 @@ multicast-dns@^6.0.1:
     dns-packet "^1.3.1"
     thunky "^1.0.2"
 
-naive-gh-events@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/naive-gh-events/-/naive-gh-events-1.0.2.tgz#8b8d72db024b8dd091177bdf453c557cc7494162"
-  integrity sha512-xMquhcheR3sNWyhTDgV27wGKtYsQcp0QUS9vFBKH6WnP7iyZ9l8UX9gj7YkuZLA5mV5iZefT+uo2faz701bTUQ==
+naive-gh-events@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/naive-gh-events/-/naive-gh-events-1.0.3.tgz#f4964905f4d5b7cd9d14aacec9cffa640316feaf"
+  integrity sha512-cK35doScNJR+n4ZAjlOtDriHv+SpjD5qh9wiBBIU1kd00VUobccDPurXOR1gUyeEJ05Uy9J0JEi4Xz/N6CND3w==
   dependencies:
     "@octokit/types" "^6.12.2"
     lodash "^4.17.21"

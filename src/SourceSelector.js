@@ -15,6 +15,10 @@ const SourceSelectorItemContainer = styled.div`
   margin-right: 20px;
 `
 
+const SourceSelectorErrorContainer = styled(SourceSelectorItemContainer)`
+  color: maroon;
+`
+
 const SourceSelectorLabel = styled.div`
   margin-top: auto;
   margin-bottom: auto;
@@ -42,7 +46,7 @@ const SourceSelectorInputSaveButton = styled.button`
 `
 
 
-export const SourceSelector = ({source, setSource}) => {
+export const SourceSelector = ({source, setSource, sourceError, setSourceError}) => {
 
   let [active, setActive] = useState(source ? true : false)
   let [inputValue, setInputValue] = useState(""
@@ -56,6 +60,7 @@ export const SourceSelector = ({source, setSource}) => {
   function selectDefault() {
     setActive(false)
     setSource(null)
+    setSourceError(null)
   }
 
   function handleInputValueChange(e) {
@@ -65,6 +70,7 @@ export const SourceSelector = ({source, setSource}) => {
   function handleSubmit(e) {
     setSource(inputValue)
     setActive(true)
+    setSourceError(null)
   }
 
 
@@ -76,6 +82,9 @@ export const SourceSelector = ({source, setSource}) => {
       <SourceSelectorItemContainer>
         <SourceSelectorRadioButton onClick={(e) => {inputValue && setActive(true); handleSubmit(e)}} current={source || active ? true : false}/><SourceSelectorInputField value={inputValue} onChange={handleInputValueChange} placeholder={"Github User Public Feed"}/><SourceSelectorInputSaveButton onClick={handleSubmit} disabled={inputValue ? false : true}>get feed</SourceSelectorInputSaveButton>
       </SourceSelectorItemContainer>
+      <SourceSelectorErrorContainer>
+        {sourceError}
+      </SourceSelectorErrorContainer>
     </SourceSelectorContainer>
 
   )

@@ -139,6 +139,7 @@ const EventsDisplay = () => {
     reverseSortEvents: false
   })
   let [source, setSource] = useState(null)
+  let [sourceError, setSourceError] = useState(null)
   let [display, setDisplay] = useState(true)
 
   function changeOptions(newOptionsFragment) {
@@ -146,9 +147,22 @@ const EventsDisplay = () => {
   }
 
   useEffect(()=> {
-      axios.request(source ? `https://api.github.com/users/${source}/events?per_page=100` : 'https://api.github.com/events?per_page=100').then(data =>         {
+      axios.request(source ? `https://api.github.com/users/${source}/events?per_page=100` : 'https://api.github.com/events?per_page=100').then(data =>  {
+          if(data.data.length < 1) {
+            setSourceError('No events in last 90 days')
+          }
           setEvents(data.data)
           setLoaded(true)
+        }, err => {
+          if(err.response.status === 404) {
+            setEvents(null)
+            setLoaded(true)
+            setSourceError('GitHub user not found')
+          } else if (err.response.status === 403) {
+            setEvents(null)
+            setLoaded(true)
+            setSourceError('403, API limits likely exceeded')
+          }
         })
   }, [loaded, source])
   
@@ -159,7 +173,7 @@ const EventsDisplay = () => {
   return (
     <EventsListContainer>
       <EventsListHeader>
-        <OptionsPanel sourceControls={[source, setSource]} changeOptions={changeOptions} options={options}/>
+        <OptionsPanel sourceControls={[source, setSource]} changeOptions={changeOptions} options={options} sourceError={sourceError} setSourceError={setSourceError}/>
         <DisplayOptions display={display} setDisplay={setDisplay}/>
       </EventsListHeader>
       

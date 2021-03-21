@@ -104,7 +104,7 @@ export const OptionsPanelTitle = styled.div`
   margin-bottom: 8px;
 `
 
-export const OptionsPanel = ({sourceControls, changeOptions, options}) => {
+export const OptionsPanel = ({sourceControls, changeOptions, options, sourceError, setSourceError}) => {
 
   let [dateTimeFormatState, setDateTimeFormatState] = useState('DATE_FULL')
   let [source, setSource] = sourceControls
@@ -121,7 +121,7 @@ export const OptionsPanel = ({sourceControls, changeOptions, options}) => {
   return (
     <OptionsContainer>
       <OptionsPanelTitle>source</OptionsPanelTitle>
-      <SourceSelector source={source} setSource={setSource} />
+      <SourceSelector source={source} setSource={setSource} sourceError={sourceError} setSourceError={setSourceError}/>
       <OptionsPanelTitle>render options</OptionsPanelTitle>
       <ToggleSwitchesContainer>
             { Object.getOwnPropertyNames(options).filter(n => typeof options[n] === 'boolean').map(toggleName =>
