@@ -77,10 +77,10 @@ export const SourceSelector = ({source, setSource, sourceError, setSourceError})
   return (
     <SourceSelectorContainer>
       <SourceSelectorItemContainer>
-        <SourceSelectorRadioButton onClick={() => selectDefault()} current={source || active ? false : true}/> <SourceSelectorLabel>GitHub username</SourceSelectorLabel>
+        <SourceSelectorRadioButton onClick={() => selectDefault()} current={source || active ? false : true}/> <SourceSelectorLabel>use GitHub public events feed</SourceSelectorLabel>
       </SourceSelectorItemContainer>
       <SourceSelectorItemContainer>
-        <SourceSelectorRadioButton onClick={(e) => {inputValue && setActive(true); handleSubmit(e)}} current={source || active ? true : false}/><SourceSelectorInputField value={inputValue} onChange={handleInputValueChange} placeholder={"Github User Public Feed"}/><SourceSelectorInputSaveButton onClick={handleSubmit} disabled={inputValue ? false : true}>get feed</SourceSelectorInputSaveButton>
+        <SourceSelectorRadioButton onClick={(e) => {inputValue && setActive(true); handleSubmit(e)}} current={source || active ? true : false}/><SourceSelectorInputField value={inputValue} onChange={handleInputValueChange} placeholder={"GitHub username"}/><SourceSelectorInputSaveButton onClick={handleSubmit} disabled={inputValue ? false : true}>get feed</SourceSelectorInputSaveButton>
       </SourceSelectorItemContainer>
       <SourceSelectorErrorContainer>
         {sourceError}
