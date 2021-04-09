@@ -1,6 +1,6 @@
 {
   "name": "naive-gh-events-demo",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "private": false,
   "homepage": "https://timfitzzz.github.io/naive-gh-events-demo",
   "dependencies": {
@@ -9,7 +9,7 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
     "luxon": "^1.26.0",
-    "naive-gh-events": "^1.0.3",
+    "naive-gh-events": "1.1.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-markdown": "^5.0.3",
