@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { DateTime } from 'luxon'
 
@@ -40,6 +40,16 @@ export const ToggleLabel = styled.div`
 
 `
 
+export const TextInput = styled.textarea`
+  font-size: 0.4em;
+  width: 100%;
+  resize: vertical;
+  height: 250px;
+  margin-right: 3px;
+  box-sizing: border-box;
+
+`
+
 const DropDownsContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -66,7 +76,12 @@ let descriptionsTable = {
   groupByDays: 'number of days of events to group together',
   dateTimeFormatOptions: 'example Luxon display format',
   startDate: 'filter out prior events',
-  reverseSortEvents: 'reverse sortBy'
+  reverseSortEvents: 'reverse sortBy',
+  markPrivate: 'append marker to private event summaries',
+  privateMarker: 'marker to append to private event summaries',
+  omitPrivateLinks: `don't link to private event subjects, targets, or parents`,
+  italicizePrivateLinks: 'italicize link text for private event subjects, targets, or parents'
+
 }
 
 const droptions = {
@@ -104,10 +119,24 @@ export const OptionsPanelTitle = styled.div`
   margin-bottom: 8px;
 `
 
-export const OptionsPanel = ({sourceControls, changeOptions, options, sourceError, setSourceError}) => {
+export const OptionsPanel = ({events, sourceControls, changeOptions, options, error }) => {
 
   let [dateTimeFormatState, setDateTimeFormatState] = useState('DATE_FULL')
-  let [source, setSource] = sourceControls
+  let [source, selectSource] = sourceControls
+  let [textInput, setTextInput] = useState("")
+
+
+  useEffect(() => {
+    if (source && source.type === 'input' && (!source.value || source.value !== textInput)) {
+      setTextInput(JSON.stringify(events, null, 2))
+    }
+  }, [source, events, textInput])
+
+  
+  function updateSourceText(json) {
+    setTextInput(json)
+    selectSource({type: 'input', value: json})
+  }
 
   function toggle(switchName) {
     changeOptions({ [switchName]: !options[switchName]})
@@ -121,22 +150,48 @@ export const OptionsPanel = ({sourceControls, changeOptions, options, sourceErro
   return (
     <OptionsContainer>
       <OptionsPanelTitle>source</OptionsPanelTitle>
-      <SourceSelector source={source} setSource={setSource} sourceError={sourceError} setSourceError={setSourceError}/>
+      <SourceSelector source={source} selectSource={selectSource} sourceError={error}/>
+      { source && source.type === 'input' ? <TextInput value={textInput} onChange={(e) => {updateSourceText(e.target.value)}}/> : <></> }
       <OptionsPanelTitle>render options</OptionsPanelTitle>
       <ToggleSwitchesContainer>
-            { Object.getOwnPropertyNames(options).filter(n => typeof options[n] === 'boolean').map(toggleName =>
-            <ToggleSwitchContainer key={toggleName+'toggler'}>
-              <ToggleSwitch name={toggleName} toggleCb={toggle} state={options[toggleName]}/>
-              <ToggleLabel>{toggleName}<span>{descriptionsTable[toggleName]}</span></ToggleLabel>
-            </ToggleSwitchContainer>
-
-            )}
+        { Object.getOwnPropertyNames(options).filter(n => typeof options[n] === 'boolean').map(toggleName =>
+          <ToggleSwitchContainer key={toggleName+'toggler'}>
+            <ToggleSwitch name={toggleName} toggleCb={toggle} state={options[toggleName]}/>
+            <ToggleLabel>{toggleName}<span>{descriptionsTable[toggleName]}</span></ToggleLabel>
+          </ToggleSwitchContainer>
+        )}
       </ToggleSwitchesContainer>
       <DropDownsContainer>
-          <DropDownSelector description={descriptionsTable.sortby} name={'sortBy'} options={droptions['sortBy']} state={options['sortBy']} setter={changeOptions}/>
-          <DropDownSelector description={descriptionsTable.groupByDays} name={'groupByDays'} options={droptions['groupByDays']} state={options['groupByDays']} setter={changeOptions} setAsNumber={true}/>
-          <DropDownSelector description={descriptionsTable.groupStartDay} name={'groupStartDay'} options={droptions['groupStartDay']} state={options['groupStartDay']} setter={changeOptions} setAsNumber={true}/>
-          <DropDownSelector description={descriptionsTable.dateTimeFormatOptions} name={'dateTimeFormatOptions'} options={droptions['dateTimeFormatOptions']} state={dateTimeFormatState} setter={setDateTimeFormat}/>
+          <DropDownSelector 
+            description={descriptionsTable.sortby} 
+            name={'sortBy'} 
+            options={droptions['sortBy']} 
+            state={options['sortBy']} 
+            setter={changeOptions}
+          />
+          <DropDownSelector 
+            description={descriptionsTable.groupByDays} 
+            name={'groupByDays'} 
+            options={droptions['groupByDays']} 
+            state={options['groupByDays']} 
+            setter={changeOptions} 
+            setAsNumber={true}
+          />
+          <DropDownSelector 
+            description={descriptionsTable.groupStartDay} 
+            name={'groupStartDay'} 
+            options={droptions['groupStartDay']} 
+            state={options['groupStartDay']} 
+            setter={changeOptions} 
+            setAsNumber={true}
+          />
+          <DropDownSelector 
+            description={descriptionsTable.dateTimeFormatOptions}
+            name={'dateTimeFormatOptions'}
+            options={droptions['dateTimeFormatOptions']}
+            state={dateTimeFormatState}
+            setter={setDateTimeFormat}
+          />
       </DropDownsContainer>
     </OptionsContainer>
   )

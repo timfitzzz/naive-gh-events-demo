@@ -1,28 +1,12 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import styled from 'styled-components'
-import axios from 'axios';
 import Naive from 'naive-gh-events'
 import ReactMarkdown from 'react-markdown'
-import { DateTime } from 'luxon'
-
-import OptionsPanel from './OptionsPanel'
-import DisplayOptions from './DisplayOptions'
 
 const EventsListContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-`
-
-const EventsListHeader = styled.div`
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  justify-self: baseline;
-  font-size: 30px;
-  width: 100%;
-  font-weight: bolder;
-  color: purple;
 `
 
 const EventsList = styled(ReactMarkdown)`
@@ -119,64 +103,15 @@ const EventsGroupDate = styled.div`
   color: purple;
 `
 
-const EventsDisplay = () => {
-  
-  let [loaded, setLoaded] = useState(false)
-  let [events, setEvents] = useState(null)
-  let [options, setOptions] = useState({
-    sortBy: 'date',
-    collapse: true,
-    dateSummaries: false,
-    dateContent: false,
-    groupByDays: 7,
-    groupStartDay: 0,
-    startDate: new Date(1/1/1970),
-    md: true,
-    omitContent: false,
-    indentContent: true,
-    dateTimeFormatOptions: DateTime.DATE_FULL,
-    newLinesBetween: true,
-    reverseSortEvents: false
-  })
-  let [source, setSource] = useState(null)
-  let [sourceError, setSourceError] = useState(null)
-  let [display, setDisplay] = useState(true)
+const EventsDisplay = ({loaded, options, events, display}) => {
 
-  function changeOptions(newOptionsFragment) {
-    setOptions(Object.assign({}, options, newOptionsFragment))
-  }
-
-  useEffect(()=> {
-      axios.request(source ? `https://api.github.com/users/${source}/events?per_page=100` : 'https://api.github.com/events?per_page=100').then(data =>  {
-          if(data.data.length < 1) {
-            setSourceError('No events in last 90 days')
-          }
-          setEvents(data.data)
-          setLoaded(true)
-        }, err => {
-          if(err.response.status === 404) {
-            setEvents(null)
-            setLoaded(true)
-            setSourceError('GitHub user not found')
-          } else if (err.response.status === 403) {
-            setEvents(null)
-            setLoaded(true)
-            setSourceError('403, API limits likely exceeded')
-          }
-        })
-  }, [loaded, source])
-  
   const renderedEventGroups = useMemo(() => {
     return events ? Naive.renderEvents(events, options) : null
   }, [events, options])
 
+
   return (
     <EventsListContainer>
-      <EventsListHeader>
-        <OptionsPanel sourceControls={[source, setSource]} changeOptions={changeOptions} options={options} sourceError={sourceError} setSourceError={setSourceError}/>
-        <DisplayOptions display={display} setDisplay={setDisplay}/>
-      </EventsListHeader>
-      
       { renderedEventGroups && renderedEventGroups.map((event, i) => {
         return options.md ? (
             display ? (

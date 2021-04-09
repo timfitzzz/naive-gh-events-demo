@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 const SourceSelectorContainer = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   font-size: 10px;
   margin-bottom: 5px;
 `
@@ -22,6 +23,8 @@ const SourceSelectorErrorContainer = styled(SourceSelectorItemContainer)`
 const SourceSelectorLabel = styled.div`
   margin-top: auto;
   margin-bottom: auto;
+  display: flex;
+  flex-direction: row;
 `
 
 const SourceSelectorRadioButton = styled.div`
@@ -45,42 +48,64 @@ const SourceSelectorInputSaveButton = styled.button`
   font-size: 10px;
 `
 
+const ExpandSymbol = styled.div`
+  margin-left: 5px;
+  transform: ${p => p.open ? `rotate(180deg)` : `rotate(90deg)`};
 
-export const SourceSelector = ({source, setSource, sourceError, setSourceError}) => {
 
-  let [active, setActive] = useState(source ? true : false)
-  let [inputValue, setInputValue] = useState(""
-  )
-  useEffect(() => {
-    if (source) {
-      setActive(true)
-    }
-  }, [source])
+`
+
+export const SourceSelector = ({source, selectSource, sourceError}) => {
+
+  let [userInput, setUserInput] = useState("")
 
   function selectDefault() {
-    setActive(false)
-    setSource(null)
-    setSourceError(null)
+    selectSource({type: 'default'})
   }
 
   function handleInputValueChange(e) {
-    setInputValue(e.target.value)
+    setUserInput(e.target.value)
   }
   
-  function handleSubmit(e) {
-    setSource(inputValue)
-    setActive(true)
-    setSourceError(null)
+  function handleUserSubmit() {
+    selectSource({type: 'user', value: userInput})
   }
-
 
   return (
     <SourceSelectorContainer>
       <SourceSelectorItemContainer>
-        <SourceSelectorRadioButton onClick={() => selectDefault()} current={source || active ? false : true}/> <SourceSelectorLabel>use GitHub public events feed</SourceSelectorLabel>
+        <SourceSelectorRadioButton 
+          onClick={() => selectDefault()} current={source && source.type === 'default' ? true : false}
+        /> 
+        <SourceSelectorLabel>
+          use GitHub public events feed
+        </SourceSelectorLabel>
       </SourceSelectorItemContainer>
       <SourceSelectorItemContainer>
-        <SourceSelectorRadioButton onClick={(e) => {inputValue && setActive(true); handleSubmit(e)}} current={source || active ? true : false}/><SourceSelectorInputField value={inputValue} onChange={handleInputValueChange} placeholder={"GitHub username"}/><SourceSelectorInputSaveButton onClick={handleSubmit} disabled={inputValue ? false : true}>get feed</SourceSelectorInputSaveButton>
+        <SourceSelectorRadioButton 
+          onClick={(e) => {userInput && handleUserSubmit()}} 
+          current={source && source.type === 'user' ? true : false}
+        />
+        <SourceSelectorInputField 
+          value={userInput} 
+          onChange={handleInputValueChange} 
+          placeholder={"GitHub username"}
+        />
+        <SourceSelectorInputSaveButton 
+          onClick={handleUserSubmit} 
+          disabled={userInput ? false : true}>
+            get feed
+        </SourceSelectorInputSaveButton>
+      </SourceSelectorItemContainer>
+      <SourceSelectorItemContainer>
+        <SourceSelectorRadioButton 
+          onClick={(e) => {selectSource({type: 'input'})}} 
+          current={source && source.type === 'input' ? true : false }
+        />
+        <SourceSelectorLabel>
+          custom events JSON
+          <ExpandSymbol open={source && source.type === 'input' ? true : false }>▲</ExpandSymbol> 
+        </SourceSelectorLabel>
       </SourceSelectorItemContainer>
       <SourceSelectorErrorContainer>
         {sourceError}
